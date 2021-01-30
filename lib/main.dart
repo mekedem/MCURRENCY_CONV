@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future loadInitialData() async {
     controllerComponent = ControllerComponent();
     currenciewithrate = await controllerComponent.loadInitialData();
-    controllerComponent.flactuationData('2016-12-24', '2013-12-24');
+    // controllerComponent.flactuationData('2016-12-24', '2013-12-24');
     setState(() {});
     return;
   }
@@ -65,35 +65,10 @@ class _MyHomePageState extends State<MyHomePage> {
           child: ListView(children: [
             Row(
               children: [
-                Container(
-                  width: 50,
-                  height: 45,
-                  margin: EdgeInsets.symmetric(horizontal: 5),
-                  child: Image.asset(
-                    'assets/images/eu.png',
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                Container(margin: EdgeInsets.only(left: 5), child: Text("EUR")),
-                Container(
-                  width: 50,
-                  height: 50,
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  child: Icon(
-                    Icons.compare_arrows,
-                    color: Colors.blue,
-                    size: 36.0,
-                  ),
-                ),
-                Container(
-                  width: 50,
-                  height: 45,
-                  margin: EdgeInsets.symmetric(horizontal: 5),
-                  child: Image.asset(
-                    'assets/images/global.png',
-                    fit: BoxFit.fill,
-                  ),
-                ),
+                _euroImageContainer(),
+                _euroLabel(),
+                _exchangeContainer(),
+                _targetImageContainer(),
                 _buildDropDownButton(selectedCurrency),
               ],
             ),
@@ -117,52 +92,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-              Container(
-                width: 100,
-                height: 42,
-                margin: EdgeInsets.only(right: 5),
-                decoration:
-                    BoxDecoration(border: Border.all(), color: Colors.black12),
-                child: Center(
-                  child: Text(
-                    toAmount,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
+              _targetResultDesplay()
             ]),
             SizedBox(
               height: 30,
             ),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              InkWell(
-                onTap: () => _selectDate(context),
-                child: Container(
-                  width: 100,
-                  height: 35,
-                  decoration: BoxDecoration(border: Border.all()),
-                  child: Center(
-                    child: Text(
-                      "${selectedDate.toLocal()}".split(' ')[0],
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                width: 100,
-                height: 35,
-                decoration:
-                    BoxDecoration(border: Border.all(), color: Colors.black12),
-                child: Center(
-                  child: Text(
-                    DateTime.now().toLocal().toString().split(' ')[0],
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-            ]),
+            _dateSelectionForFluctuation(),
             SizedBox(height: 10),
             ChartComponent()
           ]),
@@ -212,5 +147,92 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         selectedDate = picked;
       });
+  }
+
+  _euroImageContainer() {
+    return Container(
+      width: 50,
+      height: 45,
+      margin: EdgeInsets.symmetric(horizontal: 5),
+      child: Image.asset(
+        'assets/images/eu.png',
+        fit: BoxFit.fill,
+      ),
+    );
+  }
+
+  _euroLabel() {
+    return Container(margin: EdgeInsets.only(left: 5), child: Text("EUR"));
+  }
+
+  _targetImageContainer() {
+    return Container(
+      width: 50,
+      height: 45,
+      margin: EdgeInsets.symmetric(horizontal: 5),
+      child: Image.asset(
+        'assets/images/global.png',
+        fit: BoxFit.fill,
+      ),
+    );
+  }
+
+  _exchangeContainer() {
+    return Container(
+      width: 50,
+      height: 50,
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      child: Icon(
+        Icons.compare_arrows,
+        color: Colors.blue,
+        size: 36.0,
+      ),
+    );
+  }
+
+  _dateSelectionForFluctuation() {
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      InkWell(
+        onTap: () => _selectDate(context),
+        child: Container(
+          width: 100,
+          height: 35,
+          decoration: BoxDecoration(border: Border.all()),
+          child: Center(
+            child: Text(
+              "${selectedDate.toLocal()}".split(' ')[0],
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      ),
+      Container(
+        width: 100,
+        height: 35,
+        decoration: BoxDecoration(border: Border.all(), color: Colors.black12),
+        child: Center(
+          child: Text(
+            DateTime.now().toLocal().toString().split(' ')[0],
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    ]);
+  }
+
+  _targetResultDesplay() {
+    return Container(
+      width: 100,
+      height: 42,
+      margin: EdgeInsets.only(right: 5),
+      decoration: BoxDecoration(border: Border.all(), color: Colors.black12),
+      child: Center(
+        child: Text(
+          toAmount,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
   }
 }
