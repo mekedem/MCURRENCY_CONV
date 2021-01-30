@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 20),
-        child: Column(children: [
+        child: ListView(children: [
           Row(
             children: [
               Container(
@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Container(
               width: 95,
-              height: 35,
+              height: 42,
               margin: EdgeInsets.symmetric(horizontal: 5),
               decoration: BoxDecoration(border: Border.all()),
               child: Center(
@@ -92,9 +92,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Container(
-              width: 95,
-              height: 35,
-              margin: EdgeInsets.only(right: 10),
+              width: 100,
+              height: 42,
+              margin: EdgeInsets.only(right: 5),
               decoration:
                   BoxDecoration(border: Border.all(), color: Colors.black12),
               child: Center(
