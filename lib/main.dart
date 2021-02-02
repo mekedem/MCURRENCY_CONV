@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './views/chart_component.dart';
 import './utils/controller.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 
 void main() {
   runApp(MyApp());
@@ -31,6 +32,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Map<String, dynamic> currenciewithrate = {"EUR": 1};
+  Map<String, dynamic> symbolcurrency = {};
   DateTime selectedDate = DateTime.now();
   ControllerComponent controllerComponent;
   String selectedCurrency = "EUR";
@@ -47,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future loadInitialData() async {
     controllerComponent = ControllerComponent();
     currenciewithrate = await controllerComponent.loadInitialData();
+    symbolcurrency = await controllerComponent.loadsymbols();
     // controllerComponent.flactuationData('2016-12-24', '2013-12-24');
     setState(() {});
     return;
@@ -68,10 +71,31 @@ class _MyHomePageState extends State<MyHomePage> {
                 _euroImageContainer(),
                 _euroLabel(),
                 _exchangeContainer(),
-                _targetImageContainer(),
-                _buildDropDownButton(selectedCurrency),
+                // _targetImageContainer(),
+                // _buildDropDownButton(selectedCurrency),
               ],
             ),
+            DropdownSearch<String>(
+                mode: Mode.MENU,
+                showSelectedItem: true,
+                items: currenciewithrate.keys.toList(),
+                label: "target currency",
+                hint: "country in menu mode",
+                popupItemDisabled: (String s) => s.startsWith('I'),
+                onChanged: (val) {
+                  setState(() {
+                    selectedCurrency = val;
+                  });
+                },
+                showSearchBox: true,
+                selectedItem: selectedCurrency),
+            // Row(
+            //   children: [
+            //     // _targetImageContainer(),
+            //     // _buildDropDownButton(selectedCurrency),
+            //   ],
+            // ),
+            SizedBox(height: 20),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Container(
                 width: 95,
@@ -97,9 +121,6 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               height: 30,
             ),
-            _dateSelectionForFluctuation(),
-            SizedBox(height: 10),
-            ChartComponent()
           ]),
         ),
       ),
@@ -135,18 +156,6 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       toAmount = result.toString();
     });
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDate)
-      setState(() {
-        selectedDate = picked;
-      });
   }
 
   _euroImageContainer() {
@@ -188,36 +197,6 @@ class _MyHomePageState extends State<MyHomePage> {
         size: 36.0,
       ),
     );
-  }
-
-  _dateSelectionForFluctuation() {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      InkWell(
-        onTap: () => _selectDate(context),
-        child: Container(
-          width: 100,
-          height: 35,
-          decoration: BoxDecoration(border: Border.all()),
-          child: Center(
-            child: Text(
-              "${selectedDate.toLocal()}".split(' ')[0],
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-      ),
-      Container(
-        width: 100,
-        height: 35,
-        decoration: BoxDecoration(border: Border.all(), color: Colors.black12),
-        child: Center(
-          child: Text(
-            DateTime.now().toLocal().toString().split(' ')[0],
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ),
-    ]);
   }
 
   _targetResultDesplay() {

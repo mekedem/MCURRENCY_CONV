@@ -10,6 +10,13 @@ class ControllerComponent {
     return body['rates'];
   }
 
+  Future<Map<String, dynamic>> loadsymbols() async {
+    final response = await _api.getsymbolsCurrency();
+    final Map<String, dynamic> body = response.data;
+    // print(body);
+    return body['symbols'];
+  }
+
   void flactuationData(String startDate, String endDate) async {
     final response = await _api.getFlactuationData(startDate, endDate);
     final Map<String, dynamic> body = response.data;
