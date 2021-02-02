@@ -104,6 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 decoration: BoxDecoration(border: Border.all()),
                 child: Center(
                   child: TextField(
+                    key: Key("SearchInput"),
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
                         hintText: '',
@@ -208,6 +209,7 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Center(
         child: Text(
           toAmount,
+          key: Key("outputkey"),
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.center,
         ),

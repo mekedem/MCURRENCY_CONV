@@ -12,14 +12,13 @@ import 'package:mcurrency_conv/main.dart';
 
 void main() {
   testWidgets('SearchInput', (WidgetTester tester) async {
-    await tester.pumpWidget(MyApp());
-    var textField = find.byType(TextField);
-    var textval = find.byType(Text);
-    expect(textField, findsOneWidget);
-    await tester.enterText(textField, 'Hello');
-    expect(find.text(' '), findsOneWidget);
+    final targetfield = find.byKey(ValueKey("SearchInput"));
+    final evaluatedfield = find.byKey(ValueKey("outputkey"));
+
+    await tester.pumpWidget(MaterialApp(home: MyApp()));
+    await tester.enterText(targetfield, "10");
     await tester.pump();
-    expect(textval.toString(), '');
-    tester.getSize(textval);
+
+    expect(find.text("10"), findsWidgets);
   });
 }
